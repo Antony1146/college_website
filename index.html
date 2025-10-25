@@ -1,0 +1,1615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premier College</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f0f4f8 0%, #e8f1ff 100%);
+            color: #333;
+        }
+
+        /* Navigation */
+        nav {
+            background: linear-gradient(90deg, #1a3a52 0%, #2c5aa0 50%, #1a3a52 100%);
+            padding: 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ffd700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 12px 15px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+
+        nav a:hover, nav a.active {
+            color: #ffd700;
+            border-bottom-color: #ffd700;
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        /* Pages Container */
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Carousel - Auto Scrolling */
+        .carousel-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .carousel {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(42, 84, 148, 0.3);
+        }
+
+        .carousel-image {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: bold;
+            color: #1a3a52;
+            transition: opacity 0.8s ease-in-out;
+        }
+
+        .carousel-image.active {
+            opacity: 1;
+        }
+
+        .carousel-controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .carousel-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid white;
+        }
+
+        .carousel-dot.active {
+            background: #ffd700;
+            width: 30px;
+            border-radius: 6px;
+        }
+
+        /* Section Styling */
+        .section {
+            max-width: 1400px;
+            margin: 40px auto;
+            padding: 40px 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(42, 84, 148, 0.15);
+        }
+
+        .section-title {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            background: linear-gradient(90deg, #1a3a52 0%, #2c5aa0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+        }
+
+        .subsection-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1a3a52;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #ffd700;
+            padding-bottom: 10px;
+        }
+
+        /* Vision & Mission */
+        .vision-mission {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .vm-card {
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 5px solid #ffd700;
+            background: linear-gradient(135deg, #f0f8ff 0%, #fffacd 100%);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .vm-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(42, 84, 148, 0.2);
+        }
+
+        .vm-card h3 {
+            color: #1a3a52;
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+
+        .vm-card p {
+            color: #555;
+            line-height: 1.8;
+        }
+
+        /* Grid Layouts */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: linear-gradient(135deg, #f0f8ff 0%, #fffacd 100%);
+            padding: 25px;
+            border-radius: 10px;
+            border-top: 4px solid #ffd700;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(42, 84, 148, 0.1);
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(42, 84, 148, 0.2);
+        }
+
+        .card h3 {
+            color: #1a3a52;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .card p {
+            color: #666;
+            line-height: 1.7;
+            font-size: 14px;
+        }
+
+        /* Announcements */
+        .announcement-item {
+            padding: 20px;
+            margin-bottom: 15px;
+            background: linear-gradient(90deg, #ffffff 0%, #fffacd 100%);
+            border-left: 5px solid #ffd700;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .announcement-item:hover {
+            box-shadow: 0 4px 15px rgba(42, 84, 148, 0.15);
+            transform: translateX(5px);
+        }
+
+        .announcement-item h4 {
+            color: #1a3a52;
+            margin-bottom: 8px;
+        }
+
+        .announcement-item .date {
+            color: #2c5aa0;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .announcement-item p {
+            color: #666;
+            margin-top: 8px;
+        }
+
+        /* Form Styling */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #1a3a52;
+            font-weight: 600;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+            font-family: inherit;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #2c5aa0;
+            box-shadow: 0 0 0 3px rgba(44, 90, 160, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        button {
+            background: linear-gradient(90deg, #1a3a52 0%, #2c5aa0 100%);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(42, 84, 148, 0.2);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(42, 84, 148, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th {
+            background: linear-gradient(90deg, #1a3a52 0%, #2c5aa0 100%);
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        tr:hover {
+            background: #f9f9f9;
+        }
+
+        /* Flowchart */
+        .flowchart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .flowchart-box {
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            padding: 20px 40px;
+            border-radius: 10px;
+            border: 3px solid #1a3a52;
+            font-weight: bold;
+            color: #1a3a52;
+            font-size: 18px;
+            box-shadow: 0 4px 12px rgba(42, 84, 148, 0.2);
+            min-width: 300px;
+            text-align: center;
+        }
+
+        .flowchart-line {
+            width: 3px;
+            height: 40px;
+            background: linear-gradient(180deg, #2c5aa0 0%, #1a3a52 100%);
+            position: relative;
+        }
+
+        .flowchart-line::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 10px solid #1a3a52;
+        }
+
+        /* Department Cards */
+        .dept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .dept-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(42, 84, 148, 0.1);
+            border: 2px solid #e0e0e0;
+        }
+
+        .dept-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(42, 84, 148, 0.2);
+            border-color: #ffd700;
+        }
+
+        .dept-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #2c5aa0 0%, #1a3a52 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 60px;
+            font-weight: bold;
+        }
+
+        .dept-info {
+            padding: 20px;
+        }
+
+        .dept-info h3 {
+            color: #1a3a52;
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+
+        .dept-info p {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .view-btn {
+            background: linear-gradient(90deg, #ffd700 0%, #ffed4e 100%);
+            color: #1a3a52;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .view-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            animation: fadeIn 0.3s ease;
+            overflow-y: auto;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            max-width: 900px;
+            width: 100%;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: #1a3a52;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-btn:hover {
+            color: #2c5aa0;
+        }
+
+        /* Image Gallery */
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .gallery-item {
+            background: linear-gradient(135deg, #2c5aa0 0%, #1a3a52 100%);
+            height: 180px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            text-align: center;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(42, 84, 148, 0.2);
+            font-weight: 600;
+        }
+
+        /* Staff Table in Modal */
+        .staff-table {
+            margin-top: 20px;
+        }
+
+        .staff-table td:first-child {
+            font-weight: 600;
+            color: #1a3a52;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, #2c5aa0 0%, #1a3a52 100%);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+            border-radius: 15px;
+            margin-bottom: 40px;
+        }
+
+        .hero-section h1 {
+            font-size: 42px;
+            margin-bottom: 15px;
+            color: #ffd700;
+        }
+
+        .hero-section p {
+            font-size: 18px;
+            opacity: 0.95;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(90deg, #1a3a52 0%, #2c5aa0 50%, #1a3a52 100%);
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 40px;
+        }
+
+        footer p {
+            margin-bottom: 10px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav ul {
+                gap: 2px;
+            }
+
+            nav a {
+                padding: 10px 8px;
+                font-size: 12px;
+            }
+
+            .section-title {
+                font-size: 24px;
+            }
+
+            .vision-mission {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .carousel {
+                height: 250px;
+            }
+
+            .flowchart-box {
+                min-width: 200px;
+                padding: 15px 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">🎓 RVCE</div>
+            <ul>
+                <li><a href="#" onclick="showPage('home')" class="nav-link active">Home</a></li>
+                <li><a href="#" onclick="showPage('administration')" class="nav-link">Administration</a></li>
+                <li><a href="#" onclick="showPage('admission')" class="nav-link">Admission</a></li>
+                <li><a href="#" onclick="showPage('academic')" class="nav-link">Academic</a></li>
+                <li><a href="#" onclick="showPage('placement')" class="nav-link">Placement</a></li>
+                <li><a href="#" onclick="showPage('research')" class="nav-link">Research</a></li>
+                <li><a href="#" onclick="showPage('facilities')" class="nav-link">Facilities</a></li>
+                <li><a href="#" onclick="showPage('contact')" class="nav-link">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- HOME PAGE -->
+    <div id="home" class="page active">
+        <!-- Auto-Scrolling Carousel -->
+        <div class="carousel-container">
+            <div class="carousel">
+                <div class="carousel-image active">📚 Welcome to Premier College</div>
+                <div class="carousel-image">🏆 Excellence in Education</div>
+                <div class="carousel-image">🌟 Building Future Leaders</div>
+                <div class="carousel-image">🚀 Innovation & Research</div>
+                <div class="carousel-image">🤝 Community & Culture</div>
+                <div class="carousel-controls">
+                    <div class="carousel-dot active" onclick="goToSlide(0)"></div>
+                    <div class="carousel-dot" onclick="goToSlide(1)"></div>
+                    <div class="carousel-dot" onclick="goToSlide(2)"></div>
+                    <div class="carousel-dot" onclick="goToSlide(3)"></div>
+                    <div class="carousel-dot" onclick="goToSlide(4)"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vision & Mission -->
+        <div class="section">
+            <h2 class="section-title">Vision & Mission</h2>
+            <div class="vision-mission">
+                <div class="vm-card">
+                    <h3>🎯 Our Vision</h3>
+                    <p>To be a premier institution fostering intellectual excellence, innovation, and character development, creating leaders who contribute positively to society and drive global progress through knowledge and ethics.</p>
+                </div>
+                <div class="vm-card">
+                    <h3>🚀 Our Mission</h3>
+                    <p>Providing quality education through advanced curriculum, experienced faculty, and state-of-the-art facilities. We are committed to nurturing critical thinking, creativity, and social responsibility in our students.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Departments -->
+        <div class="section">
+            <h2 class="section-title">Our Departments</h2>
+            <div class="grid-3">
+                <div class="card">
+                    <h3>🔧 Engineering</h3>
+                    <p>Cutting-edge programs in Civil, Mechanical, Electrical, and Computer Engineering with industry-aligned curriculum.</p>
+                </div>
+                <div class="card">
+                    <h3>🧪 Science</h3>
+                    <p>Advanced research and teaching in Physics, Chemistry, Biology, and Mathematics with modern laboratories.</p>
+                </div>
+                <div class="card">
+                    <h3>💼 Commerce</h3>
+                    <p>Comprehensive business education covering Accounting, Finance, Economics, and Management studies.</p>
+                </div>
+                <div class="card">
+                    <h3>📖 Humanities</h3>
+                    <p>Diverse programs in Languages, History, Philosophy, and Social Sciences promoting critical thinking.</p>
+                </div>
+                <div class="card">
+                    <h3>💻 Information Technology</h3>
+                    <p>Latest tech education including AI, Cloud Computing, Cybersecurity, and Software Development.</p>
+                </div>
+                <div class="card">
+                    <h3>🎓 Management</h3>
+                    <p>Business management programs preparing leaders for corporate and entrepreneurial ventures.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Announcements -->
+        <div class="section">
+            <h2 class="section-title">Latest Announcements</h2>
+            <div class="announcement-item">
+                <h4>📢 Admissions Open for 2025-26</h4>
+                <span class="date">October 16, 2025</span>
+                <p>Applications are now open for all undergraduate and postgraduate programs. Apply before December 31, 2025.</p>
+            </div>
+            <div class="announcement-item">
+                <h4>🔬 Tech Innovation Summit 2025</h4>
+                <span class="date">October 15, 2025</span>
+                <p>Join industry leaders for our annual Tech Innovation Summit featuring keynote speeches and workshops.</p>
+            </div>
+            <div class="announcement-item">
+                <h4>💼 Placement Drive - Top Companies</h4>
+                <span class="date">October 10, 2025</span>
+                <p>Leading IT and consulting firms will conduct campus recruitment. Average package: 6.5 LPA.</p>
+            </div>
+            <div class="announcement-item">
+                <h4>🎉 Campus Fest 2025 Registration Open</h4>
+                <span class="date">October 5, 2025</span>
+                <p>Register your teams for various competitions. Prize pool: ₹5 Lakhs. Date: November 15-17, 2025.</p>
+            </div>
+        </div>
+
+        <!-- Excellence -->
+        <div class="section">
+            <h2 class="section-title">Our Excellence</h2>
+            <div class="grid-3">
+                <div class="card">
+                    <h3>📊 95% Placement Rate</h3>
+                    <p>Our graduates are highly sought after by leading companies with excellent salary packages.</p>
+                </div>
+                <div class="card">
+                    <h3>🏫 World-Class Faculty</h3>
+                    <p>Over 200 experienced faculty members with PhD qualifications and industry expertise.</p>
+                </div>
+                <div class="card">
+                    <h3>🔬 Advanced Research</h3>
+                    <p>Cutting-edge research facilities with publications in top-tier journals.</p>
+                </div>
+                <div class="card">
+                    <h3>🌍 International Partnerships</h3>
+                    <p>Collaborations with 50+ universities worldwide enabling student exchange programs.</p>
+                </div>
+                <div class="card">
+                    <h3>🏅 NAAC Accreditation</h3>
+                    <p>NAAC A+ accredited institution recognized for academic excellence.</p>
+                </div>
+                <div class="card">
+                    <h3>🤝 Social Impact</h3>
+                    <p>Active community engagement through outreach and sustainable development initiatives.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADMINISTRATION PAGE -->
+    <div id="administration" class="page">
+        <div class="section">
+            <h2 class="section-title">Administration</h2>
+            <div class="hero-section">
+                <h1>Organizational Structure</h1>
+                <p>Hierarchical Leadership & Governance</p>
+            </div>
+
+            
+            <div class="flowchart">
+                <div class="flowchart-box">👔 Chairman<br>Board of Governors</div>
+                <div class="flowchart-line"></div>
+                <div class="flowchart-box">🎓 Principal<br>Academic & Administrative Head</div>
+                <div class="flowchart-line"></div>
+                <div class="flowchart-box">📚 Academic Head<br>Curriculum & Quality Assurance</div>
+                <div class="flowchart-line"></div>
+                <div class="flowchart-box">👨‍🏫 HOD (Head of Department)<br>Various Departments</div>
+            </div>
+
+            <h3 class="subsection-title">Leadership Team</h3>
+            <table>
+                <tr>
+                    <th>Position</th>
+                    <th>Name</th>
+                    <th>Qualification</th>
+                    <th>Experience</th>
+                </tr>
+                <tr>
+                    <td>Chairman</td>
+                    <td>Mr. Anil Kumar Joshi</td>
+                    <td>B.Tech, MBA</td>
+                    <td>25 Years</td>
+                </tr>
+                <tr>
+                    <td>Principal</td>
+                    <td>Dr. Rajesh Kumar</td>
+                    <td>PhD, IIT Delhi</td>
+                    <td>20 Years</td>
+                </tr>
+                <tr>
+                    <td>Vice Principal - Academics</td>
+                    <td>Prof. Anita Sharma</td>
+                    <td>PhD, Delhi University</td>
+                    <td>18 Years</td>
+                </tr>
+                <tr>
+                    <td>Vice Principal - Administration</td>
+                    <td>Mr. Suresh Singh</td>
+                    <td>M.Sc, IIT Bombay</td>
+                    <td>15 Years</td>
+                </tr>
+                <tr>
+                    <td>Academic Head</td>
+                    <td>Dr. Priya Reddy</td>
+                    <td>PhD, Hyderabad University</td>
+                    <td>16 Years</td>
+                </tr>
+                <tr>
+                    <td>HOD - Engineering</td>
+                    <td>Prof. Arun Kumar</td>
+                    <td>PhD, IIT Madras</td>
+                    <td>14 Years</td>
+                </tr>
+                <tr>
+                    <td>HOD - Science</td>
+                    <td>Dr. Neha Kapoor</td>
+                    <td>PhD, IIT Delhi</td>
+                    <td>12 Years</td>
+                </tr>
+                <tr>
+                    <td>HOD - IT</td>
+                    <td>Prof. Vikram Patel</td>
+                    <td>PhD, NIT Rourkee</td>
+                    <td>13 Years</td>
+                </tr>
+            </table>
+
+            <h3 class="subsection-title">Administrative Departments</h3>
+            <div class="grid-3">
+                <div class="card">
+                    <h3>📋 Academic Affairs</h3>
+                    <p>Oversees curriculum development, faculty recruitment, academic planning, and quality assurance.</p>
+                </div>
+                <div class="card">
+                    <h3>👥 Student Affairs</h3>
+                    <p>Handles student grievances, conduct, counseling, and welfare programs.</p>
+                </div>
+                <div class="card">
+                    <h3>💰 Finance & Administration</h3>
+                    <p>Manages budgeting, procurement, facility maintenance, and administrative operations.</p>
+                </div>
+                <div class="card">
+                    <h3>🔬 Research & Innovation</h3>
+                    <p>Promotes research culture and manages research grants and collaborations.</p>
+                </div>
+                <div class="card">
+                    <h3>📞 Public Relations</h3>
+                    <p>Manages college communications, alumni relations, and external partnerships.</p>
+                </div>
+                <div class="card">
+                    <h3>🏢 Infrastructure</h3>
+                    <p>Oversees campus infrastructure development and maintenance of facilities.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADMISSION PAGE -->
+    <div id="admission" class="page">
+        <div class="section">
+            <h2 class="section-title">Admissions</h2>
+            <div class="hero-section">
+                <h1>Join Our Community</h1>
+                <p>Applications Open for 2025-26 | Deadline: December 31, 2025</p>
+            </div>
+
+            <h3 class="subsection-title">Registration Form</h3>
+            <form onsubmit="handleAdmissionSubmit(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Full Name *</label>
+                        <input type="text" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address *</label>
+                        <input type="email" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Phone Number *</label>
+                        <input type="tel" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Date of Birth *</label>
+                        <input type="date" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Qualification *</label>
+                        <select required>
+                            <option value="">Select Qualification</option>
+                            <option value="12th">10+2 / Intermediate</option>
+                            <option value="bachelor">Bachelor's Degree</option>
+                            <option value="master">Master's Degree</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Program *</label>
+                        <select required>
+                            <option value="">Select Program</option>
+                            <option value="btech">B.Tech Engineering</option>
+                            <option value="bsc">B.Sc Science</option>
+                            <option value="bcom">B.Com Commerce</option>
+                            <option value="ba">B.A Humanities</option>
+                            <option value="mtech">M.Tech Engineering</option>
+                            <option value="mba">MBA Management</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Address *</label>
+                    <textarea rows="3" required></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Marks Percentage *</label>
+                        <input type="number" step="0.01" min="0" max="100" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Board/University *</label>
+                        <input type="text" required>
+                    </div>
+                </div>
+                <button type="submit">Submit Application</button>
+            </form>
+
+            <h3 class="subsection-title">Upcoming Events & Important Dates</h3>
+            <div class="announcement-item">
+                <h4>📅 Entrance Exam Dates</h4>
+                <span class="date">December 15, 2025</span>
+                <p>Premier Entrance Test (PET) for UG programs. Registration closes on December 10. Exam centers in 50+ cities across India.</p>
+            </div>
+            <div class="announcement-item">
+                <h4>📢 Merit List Announcement</h4>
+                <span class="date">December 25, 2025</span>
+                <p>Merit list will be announced on the admission portal. Selected candidates must complete counseling by December 31, 2025.</p>
+            </div>
+            <div class="announcement-item">
+                <h4>🎓 Counseling & Seat Allocation</h4>
+                <span class="date">December 20-31, 2025</span>
+                <p>Online counseling session for merit-based candidate selection. Document verification and fee payment must be completed.</p>
+            </div>
+            <div class="announcement-item">
+                <h4>📚 Orientation Program</h4>
+                <span class="date">January 5, 2026</span>
+                <p>Induction program for new students. Welcome ceremony, campus tour, and course introduction scheduled.</p>
+            </div>
+            <div class="announcement-item">
+                <h4>🏫 Classes Begin</h4>
+                <span class="date">January 15, 2026</span>
+                <p>Academic session 2025-26 commences. All students must report on campus by January 14, 2026.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ACADEMIC PAGE -->
+    <div id="academic" class="page">
+        <div class="section">
+            <h2 class="section-title">Academic Programs</h2>
+            <div class="hero-section">
+                <h1>Our Departments</h1>
+                <p>Click on any department to view staff details, past functions, and upcoming events</p>
+            </div>
+
+            <h3 class="subsection-title">Departments & Programs</h3>
+            <div class="dept-grid">
+                <div class="dept-card">
+                    <div class="dept-image">🔧</div>
+                    <div class="dept-info">
+                        <h3>Engineering</h3>
+                        <p>B.Tech in Civil, Mechanical, Electrical, Computer Engineering</p>
+                        <button class="view-btn" onclick="showDeptModal('engineering')">View Details</button>
+                    </div>
+                </div>
+                <div class="dept-card">
+                    <div class="dept-image">🧪</div>
+                    <div class="dept-info">
+                        <h3>Science</h3>
+                        <p>B.Sc in Physics, Chemistry, Biology, Mathematics</p>
+                        <button class="view-btn" onclick="showDeptModal('science')">View Details</button>
+                    </div>
+                </div>
+                <div class="dept-card">
+                    <div class="dept-image">💼</div>
+                    <div class="dept-info">
+                        <h3>Commerce</h3>
+                        <p>B.Com with specialization in Accounting & Finance</p>
+                        <button class="view-btn" onclick="showDeptModal('commerce')">View Details</button>
+                    </div>
+                </div>
+                <div class="dept-card">
+                    <div class="dept-image">📖</div>
+                    <div class="dept-info">
+                        <h3>Humanities</h3>
+                        <p>B.A in History, English, Philosophy, Political Science</p>
+                        <button class="view-btn" onclick="showDeptModal('humanities')">View Details</button>
+                    </div>
+                </div>
+                <div class="dept-card">
+                    <div class="dept-image">💻</div>
+                    <div class="dept-info">
+                        <h3>Information Technology</h3>
+                        <p>B.Tech IT with AI, Cloud Computing, Cybersecurity</p>
+                        <button class="view-btn" onclick="showDeptModal('it')">View Details</button>
+                    </div>
+                </div>
+                <div class="dept-card">
+                    <div class="dept-image">🎓</div>
+                    <div class="dept-info">
+                        <h3>Management</h3>
+                        <p>MBA in Business Management & Entrepreneurship</p>
+                        <button class="view-btn" onclick="showDeptModal('management')">View Details</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PLACEMENT PAGE -->
+    <div id="placement" class="page">
+        <div class="section">
+            <h2 class="section-title">Placements</h2>
+            <div class="hero-section">
+                <h1>95% Placement Rate</h1>
+                <p>Average Package: ₹6.5 LPA | Highest Package: ₹24 LPA</p>
+            </div>
+
+            <h3 class="subsection-title">Placement Statistics</h3>
+            <table>
+                <tr>
+                    <th>Year</th>
+                    <th>Students Placed</th>
+                    <th>Average Package</th>
+                    <th>Highest Package</th>
+                    <th>Top Recruiter</th>
+                </tr>
+                <tr>
+                    <td>2023</td>
+                    <td>542</td>
+                    <td>₹6.2 LPA</td>
+                    <td>₹22 LPA</td>
+                    <td>Google India</td>
+                </tr>
+                <tr>
+                    <td>2024</td>
+                    <td>568</td>
+                    <td>₹6.5 LPA</td>
+                    <td>₹24 LPA</td>
+                    <td>Microsoft</td>
+                </tr>
+                <tr>
+                    <td>2025 (Till Oct)</td>
+                    <td>480</td>
+                    <td>₹6.8 LPA</td>
+                    <td>₹25 LPA</td>
+                    <td>Amazon</td>
+                </tr>
+            </table>
+
+            <h3 class="subsection-title">Top Recruiting Companies</h3>
+            <div class="grid-3">
+                <div class="card">
+                    <h3>Tech Giants</h3>
+                    <p>Google, Microsoft, Amazon, Apple, Meta, Intel, IBM, Oracle</p>
+                </div>
+                <div class="card">
+                    <h3>IT Consulting</h3>
+                    <p>TCS, Infosys, Wipro, Cognizant, Accenture, Deloitte, EY, PwC</p>
+                </div>
+                <div class="card">
+                    <h3>Finance & Banking</h3>
+                    <p>Goldman Sachs, JP Morgan, HSBC, ICICI Bank, HDFC Bank, Axis Bank</p>
+                </div>
+            </div>
+
+            <h3 class="subsection-title">Placement Highlights</h3>
+            <div class="grid-2">
+                <div class="card">
+                    <h3>📈 Salary Growth</h3>
+                    <p>Year-on-year increase in average and highest packages. 2024 saw 5% increase in average package compared to 2023.</p>
+                </div>
+                <div class="card">
+                    <h3>🌍 International Placements</h3>
+                    <p>20% of graduates placed in international companies with opportunities in USA, UK, Singapore, and Germany.</p>
+                </div>
+                <div class="card">
+                    <h3>🚀 Startup Ventures</h3>
+                    <p>15% of graduates opted for entrepreneurship with support from college incubation center and mentorship programs.</p>
+                </div>
+                <div class="card">
+                    <h3>📚 Higher Studies</h3>
+                    <p>10% of graduates pursue higher education at prestigious institutions like IITs, NITs, and international universities.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- RESEARCH PAGE -->
+    <div id="research" class="page">
+        <div class="section">
+            <h2 class="section-title">Research & Innovation</h2>
+            <div class="hero-section">
+                <h1>Advancing Knowledge</h1>
+                <p>50+ Research Centers | 500+ Publications Annually | ₹50 Cr+ Funding</p>
+            </div>
+
+            <h3 class="subsection-title">Research Areas</h3>
+            <div class="grid-3">
+                <div class="card">
+                    <h3>🤖 Artificial Intelligence</h3>
+                    <p>Machine Learning, Deep Learning, NLP, Computer Vision with applications in healthcare and finance sectors.</p>
+                </div>
+                <div class="card">
+                    <h3>🧬 Biotechnology</h3>
+                    <p>Genetic Engineering, Biomedical Research, Pharmaceutical Development, and Drug Discovery initiatives.</p>
+                </div>
+                <div class="card">
+                    <h3>⚡ Renewable Energy</h3>
+                    <p>Solar Power, Wind Energy, Battery Technology, and Sustainable Development Solutions for future.</p>
+                </div>
+                <div class="card">
+                    <h3>🔬 Nanotechnology</h3>
+                    <p>Nanoparticles, Nanomaterials, and applications in medicine, electronics, and environmental remediation.</p>
+                </div>
+                <div class="card">
+                    <h3>🌿 Environmental Science</h3>
+                    <p>Climate change, waste management, water quality, and pollution control research projects.</p>
+                </div>
+                <div class="card">
+                    <h3>📡 IoT & 5G Technology</h3>
+                    <p>Internet of Things, 5G networks, smart cities, and connected device applications development.</p>
+                </div>
+            </div>
+
+            <h3 class="subsection-title">Research Facilities & Centers</h3>
+            <table>
+                <tr>
+                    <th>Research Center</th>
+                    <th>Focus Area</th>
+                    <th>Faculty In-Charge</th>
+                    <th>Publications (2024)</th>
+                </tr>
+                <tr>
+                    <td>AI & ML Lab</td>
+                    <td>Artificial Intelligence</td>
+                    <td>Dr. Rajesh Kumar</td>
+                    <td>45</td>
+                </tr>
+                <tr>
+                    <td>Biomedical Research Center</td>
+                    <td>Biotechnology</td>
+                    <td>Prof. Priya Reddy</td>
+                    <td>38</td>
+                </tr>
+                <tr>
+                    <td>Renewable Energy Lab</td>
+                    <td>Sustainable Energy</td>
+                    <td>Dr. Arun Kumar</td>
+                    <td>32</td>
+                </tr>
+                <tr>
+                    <td>IoT Innovation Hub</td>
+                    <td>IoT & 5G</td>
+                    <td>Prof. Vikram Patel</td>
+                    <td>28</td>
+                </tr>
+            </table>
+
+            <h3 class="subsection-title">Funding & Collaborations</h3>
+            <div class="grid-2">
+                <div class="card">
+                    <h3>💰 Funding Sources</h3>
+                    <p>DST, CSIR, UGC, ICMR, SERB funding. International collaborations with Global Research Fund.</p>
+                </div>
+                <div class="card">
+                    <h3>🤝 International Partnerships</h3>
+                    <p>Collaborations with MIT, Stanford, Oxford, Cambridge, Tokyo University, and leading global research institutions.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FACILITIES PAGE -->
+    <div id="facilities" class="page">
+        <div class="section">
+            <h2 class="section-title">Campus Facilities</h2>
+            <div class="hero-section">
+                <h1>World-Class Infrastructure</h1>
+                <p>State-of-the-art facilities for learning and growth</p>
+            </div>
+
+            <h3 class="subsection-title">Academic Facilities</h3>
+            <div class="grid-3">
+                <div class="card">
+                    <h3>📚 Central Library</h3>
+                    <p>5,00,000+ books, 200+ journals, digital database, computer lab, reading halls, and 24/7 access for students.</p>
+                </div>
+                <div class="card">
+                    <h3>🖥️ Computer Labs</h3>
+                    <p>50+ modern computer labs with latest software, high-speed internet, cybersecurity tools, and programming platforms.</p>
+                </div>
+                <div class="card">
+                    <h3>🔬 Science Laboratories</h3>
+                    <p>Advanced physics, chemistry, and biology labs with modern equipment and instruments for research and learning.</p>
+                </div>
+                <div class="card">
+                    <h3>🏭 Engineering Workshop</h3>
+                    <p>Fully equipped workshops for mechanical, civil, electrical engineering with CAD/CAM facilities and 3D printers.</p>
+                </div>
+                <div class="card">
+                    <h3>🎓 Lecture Halls</h3>
+                    <p>150+ air-conditioned classrooms with smart boards, projectors, high-speed WiFi, and recording facilities.</p>
+                </div>
+                <div class="card">
+                    <h3>🎤 Auditorium</h3>
+                    <p>3,000+ capacity amphitheater with acoustic system, stage, and facilities for seminars, concerts, and events.</p>
+                </div>
+            </div>
+
+            <h3 class="subsection-title">Sports & Recreation</h3>
+            <div class="grid-3">
+                <div class="card">
+                    <h3>⚽ Sports Complex</h3>
+                    <p>Football, cricket, basketball, badminton, tennis courts. Indoor gymnasium with fitness equipment.</p>
+                </div>
+                <div class="card">
+                    <h3>🏊 Swimming Pool</h3>
+                    <p>Olympic-size swimming pool with certified instructors and training programs for all levels.</p>
+                </div>
+                <div class="card">
+                    <h3>🏋️ Fitness Center</h3>
+                    <p>Modern gym with cardio equipment, free weights, yoga studio, and trained fitness instructors.</p>
+                </div>
+            </div>
+
+            <h3 class="subsection-title">Residential Facilities</h3>
+            <div class="grid-2">
+                <div class="card">
+                    <h3>🏠 Hostel Accommodation</h3>
+                    <p>Separate boys and girls hostels with capacity of 2,000+ students. Air-conditioned rooms, mess facilities, WiFi, and 24/7 security.</p>
+                </div>
+                <div class="card">
+                    <h3>🍽️ Dining Facilities</h3>
+                    <p>Multi-cuisine mess with vegetarian and non-vegetarian options. Hygienic food preparation under health supervision.</p>
+                </div>
+            </div>
+
+            <h3 class="subsection-title">Health & Wellness</h3>
+            <div class="grid-3">
+                <div class="card">
+                    <h3>🏥 Medical Center</h3>
+                    <p>24-hour health center with qualified doctors, nurses, and medical equipment for emergencies and general health issues.</p>
+                </div>
+                <div class="card">
+                    <h3>🧠 Counseling Services</h3>
+                    <p>Professional counselors for mental health, academic guidance, and career counseling services.</p>
+                </div>
+                <div class="card">
+                    <h3>⚕️ Pharmacy</h3>
+                    <p>On-campus pharmacy for common medicines and emergency pharmaceutical needs at subsidized rates.</p>
+                </div>
+            </div>
+
+            <h3 class="subsection-title">Other Facilities</h3>
+            <div class="grid-3">
+                <div class="card">
+                    <h3>📱 IT Infrastructure</h3>
+                    <p>High-speed internet (100 Mbps+), WiFi across campus, cloud services, and data center for academic needs.</p>
+                </div>
+                <div class="card">
+                    <h3>🚌 Transportation</h3>
+                    <p>Fleet of buses for local connectivity, airport shuttle service, and transportation for events and trips.</p>
+                </div>
+                <div class="card">
+                    <h3>🛍️ Campus Store</h3>
+                    <p>Bookstore, stationery shop, and general store for student requirements with competitive prices.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTACT PAGE -->
+    <div id="contact" class="page">
+        <div class="section">
+            <h2 class="section-title">Contact Us</h2>
+            <div class="hero-section">
+                <h1>Get In Touch</h1>
+                <p>We'd love to hear from you. Contact us for any queries or information.</p>
+            </div>
+
+            <div class="grid-2" style="margin-top: 40px;">
+                <div class="card">
+                    <h3>📍 Main Campus</h3>
+                    <p><strong>Address:</strong> Premier College, Education Park, Sector 5, Tech City, State 123456</p>
+                    <p><strong>Phone:</strong> +91-9876-543210</p>
+                    <p><strong>Email:</strong> info@premiercollege.edu</p>
+                </div>
+                <div class="card">
+                    <h3>🕐 Office Hours</h3>
+                    <p><strong>Monday - Friday:</strong> 9:00 AM - 6:00 PM</p>
+                    <p><strong>Saturday:</strong> 9:00 AM - 1:00 PM</p>
+                    <p><strong>Sunday:</strong> Closed</p>
+                    <p><strong>Emergency:</strong> 24/7 Support Available</p>
+                </div>
+            </div>
+
+            <h3 class="subsection-title">Contact Form</h3>
+            <form onsubmit="handleContactSubmit(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Full Name *</label>
+                        <input type="text" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address *</label>
+                        <input type="email" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Phone Number *</label>
+                        <input type="tel" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Subject *</label>
+                        <input type="text" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Message *</label>
+                    <textarea rows="5" required></textarea>
+                </div>
+                <button type="submit">Send Message</button>
+            </form>
+
+            <h3 class="subsection-title">Department Contact Information</h3>
+            <table>
+                <tr>
+                    <th>Department</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Location</th>
+                </tr>
+                <tr>
+                    <td>Admissions</td>
+                    <td>+91-9876-543211</td>
+                    <td>admissions@premiercollege.edu</td>
+                    <td>Building A, 1st Floor</td>
+                </tr>
+                <tr>
+                    <td>Engineering</td>
+                    <td>+91-9876-543212</td>
+                    <td>eng@premiercollege.edu</td>
+                    <td>Building B, 2nd Floor</td>
+                </tr>
+                <tr>
+                    <td>Science</td>
+                    <td>+91-9876-543213</td>
+                    <td>science@premiercollege.edu</td>
+                    <td>Building C, 1st Floor</td>
+                </tr>
+                <tr>
+                    <td>IT Department</td>
+                    <td>+91-9876-543214</td>
+                    <td>it@premiercollege.edu</td>
+                    <td>Building D, 3rd Floor</td>
+                </tr>
+                <tr>
+                    <td>Placements</td>
+                    <td>+91-9876-543215</td>
+                    <td>placement@premiercollege.edu</td>
+                    <td>Building E, Ground Floor</td>
+                </tr>
+                <tr>
+                    <td>Student Welfare</td>
+                    <td>+91-9876-543216</td>
+                    <td>welfare@premiercollege.edu</td>
+                    <td>Building A, 2nd Floor</td>
+                </tr>
+            </table>
+
+            <h3 class="subsection-title">Follow Us</h3>
+            <div style="text-align: center; margin-top: 30px;">
+                <p style="font-size: 18px; margin-bottom: 20px;">
+                    📱 Facebook | 🐦 Twitter | 📷 Instagram | 🔗 LinkedIn | ▶️ YouTube
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Department Details -->
+    <div id="deptModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeDeptModal()">&times;</span>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Premier College. All Rights Reserved.</p>
+        <p>Excellence in Education | Building Future Leaders</p>
+        <p>Email: info@premiercollege.edu | Phone: +91-9876-543210</p>
+    </footer>
+
+    <script>
+        let currentSlide = 0;
+
+        // Initialize carousel after DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            const slides = document.querySelectorAll('.carousel-image');
+            const dots = document.querySelectorAll('.carousel-dot');
+
+            // Auto-scroll carousel
+            setInterval(() => {
+                if (slides.length > 0) {
+                    currentSlide = (currentSlide + 1) % slides.length;
+                    updateCarousel();
+                }
+            }, 5000);
+        });
+
+        function updateCarousel() {
+            const slides = document.querySelectorAll('.carousel-image');
+            const dots = document.querySelectorAll('.carousel-dot');
+            
+            slides.forEach((slide, index) => {
+                slide.classList.remove('active');
+                dots[index].classList.remove('active');
+            });
+            if (slides[currentSlide]) {
+                slides[currentSlide].classList.add('active');
+                dots[currentSlide].classList.add('active');
+            }
+        }
+
+        function goToSlide(n) {
+            currentSlide = n;
+            updateCarousel();
+        }
+
+        // Page Navigation
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            const page = document.getElementById(pageId);
+            if (page) {
+                page.classList.add('active');
+            }
+
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // Add active class to clicked nav link
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                if (link.textContent.trim() === pageId.charAt(0).toUpperCase() + pageId.slice(1) ||
+                    (pageId === 'home' && link.textContent.includes('Home')) ||
+                    (pageId === 'administration' && link.textContent.includes('Administration')) ||
+                    (pageId === 'admission' && link.textContent.includes('Admission')) ||
+                    (pageId === 'academic' && link.textContent.includes('Academic')) ||
+                    (pageId === 'placement' && link.textContent.includes('Placement')) ||
+                    (pageId === 'research' && link.textContent.includes('Research')) ||
+                    (pageId === 'facilities' && link.textContent.includes('Facilities')) ||
+                    (pageId === 'contact' && link.textContent.includes('Contact'))) {
+                    link.classList.add('active');
+                }
+            });
+
+            window.scrollTo(0, 0);
+        }
+
+        // Department Data
+        const deptData = {
+            engineering: {
+                name: 'Engineering Department',
+                staff: [
+                    { name: 'Prof. Arun Kumar', position: 'HOD', email: 'arun.kumar@premiercollege.edu' },
+                    { name: 'Dr. Amit Singh', position: 'Associate Professor', email: 'amit.singh@premiercollege.edu' },
+                    { name: 'Prof. Neha Sharma', position: 'Assistant Professor', email: 'neha.sharma@premiercollege.edu' },
+                    { name: 'Dr. Rajiv Patel', position: 'Assistant Professor', email: 'rajiv.patel@premiercollege.edu' }
+                ]
+            },
+            science: {
+                name: 'Science Department',
+                staff: [
+                    { name: 'Dr. Neha Kapoor', position: 'HOD', email: 'neha.kapoor@premiercollege.edu' },
+                    { name: 'Prof. Vikram Reddy', position: 'Associate Professor', email: 'vikram.reddy@premiercollege.edu' },
+                    { name: 'Dr. Priya Singh', position: 'Assistant Professor', email: 'priya.singh@premiercollege.edu' },
+                    { name: 'Prof. Rajesh Kumar', position: 'Assistant Professor', email: 'rajesh.kumar@premiercollege.edu' }
+                ]
+            },
+            commerce: {
+                name: 'Commerce Department',
+                staff: [
+                    { name: 'Prof. Harish Gupta', position: 'HOD', email: 'harish.gupta@premiercollege.edu' },
+                    { name: 'Dr. Sneha Verma', position: 'Associate Professor', email: 'sneha.verma@premiercollege.edu' },
+                    { name: 'Prof. Anand Kumar', position: 'Assistant Professor', email: 'anand.kumar@premiercollege.edu' },
+                    { name: 'Ms. Divya Singh', position: 'Assistant Professor', email: 'divya.singh@premiercollege.edu' }
+                ]
+            },
+            humanities: {
+                name: 'Humanities Department',
+                staff: [
+                    { name: 'Prof. Anjali Sharma', position: 'HOD', email: 'anjali.sharma@premiercollege.edu' },
+                    { name: 'Dr. Ravi Kumar', position: 'Associate Professor', email: 'ravi.kumar@premiercollege.edu' },
+                    { name: 'Prof. Meera Singh', position: 'Assistant Professor', email: 'meera.singh@premiercollege.edu' },
+                    { name: 'Dr. Ashok Patel', position: 'Assistant Professor', email: 'ashok.patel@premiercollege.edu' }
+                ]
+            },
+            it: {
+                name: 'Information Technology Department',
+                staff: [
+                    { name: 'Prof. Vikram Patel', position: 'HOD', email: 'vikram.patel@premiercollege.edu' },
+                    { name: 'Dr. Sanjay Kumar', position: 'Associate Professor', email: 'sanjay.kumar@premiercollege.edu' },
+                    { name: 'Prof. Isha Reddy', position: 'Assistant Professor', email: 'isha.reddy@premiercollege.edu' },
+                    { name: 'Dr. Arjun Singh', position: 'Assistant Professor', email: 'arjun.singh@premiercollege.edu' }
+                ]
+            },
+            management: {
+                name: 'Management Department',
+                staff: [
+                    { name: 'Prof. Deepak Sharma', position: 'HOD', email: 'deepak.sharma@premiercollege.edu' },
+                    { name: 'Dr. Pooja Verma', position: 'Associate Professor', email: 'pooja.verma@premiercollege.edu' },
+                    { name: 'Prof. Suresh Kumar', position: 'Assistant Professor', email: 'suresh.kumar@premiercollege.edu' },
+                    { name: 'Ms. Kavya Singh', position: 'Assistant Professor', email: 'kavya.singh@premiercollege.edu' }
+                ]
+            }
+        };
+
+        function showDeptModal(deptId) {
+            const data = deptData[deptId];
+            if (!data) return;
+
+            let html = `
+                <h2>${data.name}</h2>
+                <h3 style="color: #1a3a52; margin-top: 20px; margin-bottom: 15px;">Staff Details</h3>
+                <table class="staff-table">
+                    <tr>
+                        <th>Name</th>
+                        <th>Position</th>
+                        <th>Email</th>
+                    </tr>
+            `;
+
+            data.staff.forEach(member => {
+                html += `
+                    <tr>
+                        <td>${member.name}</td>
+                        <td>${member.position}</td>
+                        <td>${member.email}</td>
+                    </tr>
+                `;
+            });
+
+            html += `</table>`;
+
+            html += `
+                <h3 style="color: #1a3a52; margin-top: 30px; margin-bottom: 15px;">Past Functions & Events</h3>
+                <div class="image-gallery">
+                    <div class="gallery-item">📸 Annual Fest 2024</div>
+                    <div class="gallery-item">📸 Lab Inauguration</div>
+                    <div class="gallery-item">📸 Seminar Series</div>
+                    <div class="gallery-item">📸 Field Trip</div>
+                    <div class="gallery-item">📸 Sports Day 2024</div>
+                    <div class="gallery-item">📸 Conference 2024</div>
+                </div>
+
+                <h3 style="color: #1a3a52; margin-top: 30px; margin-bottom: 15px;">Upcoming Events</h3>
+                <div class="image-gallery">
+                    <div class="gallery-item">🎯 Expert Talk - Nov 2025</div>
+                    <div class="gallery-item">🎯 Workshop Series - Dec 2025</div>
+                    <div class="gallery-item">🎯 Annual Fest - Jan 2026</div>
+                    <div class="gallery-item">🎯 Research Symposium</div>
+                    <div class="gallery-item">🎯 Cultural Event</div>
+                    <div class="gallery-item">🎯 Graduation Ceremony</div>
+                </div>
+            `;
+
+            document.getElementById('modalBody').innerHTML = html;
+            document.getElementById('deptModal').classList.add('active');
+        }
+
+        function closeDeptModal() {
+            document.getElementById('deptModal').classList.remove('active');
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('deptModal');
+            if (event.target === modal) {
+                modal.classList.remove('active');
+            }
+        }
+
+        function handleAdmissionSubmit(event) {
+            event.preventDefault();
+            alert('✅ Application submitted successfully! You will receive a confirmation email shortly.');
+            event.target.reset();
+        }
+
+        function handleContactSubmit(event) {
+            event.preventDefault();
+            alert('✅ Message sent successfully! We will get back to you soon.');
+            event.target.reset();
+        }
+    </script>
